@@ -1,4 +1,6 @@
+const { query } = require('express');
 const Blog = require('../models/Blog')
+
 
 exports.preapreingBlogs = async (req,res)=>{
    await Blog.create(req.body)
@@ -6,14 +8,42 @@ exports.preapreingBlogs = async (req,res)=>{
 }
 
 exports.getAllBlogs = async (req, res) => {
+    const page = parseInt(req.query.page) || 1; // Eğer sayfa numarası belirtilmemişse varsayılan olarak 1. sayfayı göster
+    const blogPerPage = 2;
+    
     try {
-        const blogs = await Blog.find({}); // Asenkron bir şekilde blogları bul
-
+        const allBlogs = await Blog.find().countDocuments();
+        const blog = await Blog.find({})
+            .sort({ dateCreated: -1 })
+            .skip((page - 1) * blogPerPage)
+            .limit(blogPerPage);
+    
         res.render('index', {
-            blog: blogs // Bulunan blogları şablona aktar
+            blog: blog, // Değişken adını "blogs" olarak düzelttim
+            page: page,
+            current: Math.ceil(allBlogs / blogPerPage)
         });
     } catch (error) {
-        console.error('Bloglar alınırken bir hata oluştu:', error);
-        res.status(500).send('Bloglar alınırken bir hata oluştu');
+        console.error(error);
+        // Hata işleme
+        res.status(500).send("Internal Server Error");
     }
 };
+
+exports.getBlog = async (req,res) =>{
+    const blog = await Blog.findById({_id:req.params.id})
+    res.render('post',{
+        blog
+    })
+}
+
+exports.deleteBlog = async(req,res) => {
+    const blog = await Blog.findByIdAndDelete({_id:req.params.id})
+    res.redirect('/') 
+  }
+
+
+
+
+
+

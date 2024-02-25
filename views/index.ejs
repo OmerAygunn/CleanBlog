@@ -23,27 +23,44 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-preview">
-          <% blog.forEach(element => { %>
-              <a href="post.html">
-                  <h2 class="post-title">
-                      <%= element.title %>
-                  </h2>
-                  <h3 class="post-subtitle">
-                      <%= element.detail %>
-                  </h3>
-              </a>
-              <p class="post-meta">Posted by
-                  <a href="#"><%= element.dateCreated.toDateString() %></a>
-              </p>
-          <% }); %>
+        <div  class="post-preview">
+          <% if (blog.length > 0) { %>
+            <% blog.forEach(element => { %>
+                <a href="/blogs/<%= element._id %>">
+                    <h2 class="post-title">
+                        <%= element.title %>
+                    </h2>
+                    <h3 class="post-subtitle">
+                        <%= element.detail %>
+                    </h3>
+                </a>
+                <p class="post-meta">Posted by CleanBlog
+                    <a href="#"><%= element.dateCreated.toDateString() %></a>
+                </p>
+            <% }); %>
+        <% } else { %>
+          <div style="color:black; font-size: 40px; font-weight: bold;">
+            <img src="https://akwebbilisim.com/images/gtrgrtgfgfgs.jpg" alt="">
+            Looks like your registered blog couldn't be found. Click to Add New Post Page!
+          </div>
+        <% } %>
+        
       </div>
+
       
-      
-        <!-- Pager -->
+       
         <div class="clearfix">
-          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+          <% if(page > 0) { %>
+            <% for(let i = 1; i <= current; i++) { %>
+
+              <a class=" nav-link tm-paging-link float-left" href="/?page=<%= i  %>"><%= i  %></a>&nbsp;
+
+            <% } %>
+          <% } %>
         </div>
+
+        
+        
       </div>
     </div>
   </div>
