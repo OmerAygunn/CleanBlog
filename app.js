@@ -76,12 +76,6 @@ app.delete('/blogs/:id',async(req,res) => {
   res.redirect('/')
 })
 
-// app.get('/blogs/like/:id',async(req,res) => {
-//   const blog = await Blog.findOne({_id:req.params.id})
-//   blog.likeCount = blog.likeCount + 1
-//   blog.save()
-//   res.redirect(`/blogs/${req.params.id}`)
-// })
 
 
 app.get('/blogs/like/:id', async (req, res) => {
@@ -102,7 +96,7 @@ app.get('/blogs/like/:id', async (req, res) => {
 
 
 
-const port = 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Our Port is ${port}`);
 });
