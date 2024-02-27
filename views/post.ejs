@@ -16,6 +16,10 @@
             <span class="meta">Posted by
               <a href="#">Start Bootstrap</a>
              <%= blog.dateCreated.toDateString()  %></span>
+             <img class="img-fluid" src="data:image/jpeg;base64,<%= blog.image.toString('base64') %>" alt="Post Image">
+             <span>
+              <%= blog.edited === true  ? "Edited" : ""  %>
+             </span>
           </div>
         </div>
       </div>
@@ -27,26 +31,28 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <p class="offset-4"><%= blog.title  %></p>
 
+         
+
+
+
+      <div class="offset-3 mt-4">
+        <a href="/blogs/edit/<%= blog._id %>" class="btn btn-primary mr-2">
+          <i class="fas fa-edit"></i> Update
+        </a>
+        <a onclick="return confirm(`Are you sure to delete <%= blog.title.toUpperCase() %>?`)" href="/blogs/<%= blog._id %>?_method=DELETE" class="btn btn-danger">
+          <i class="fas fa-trash-alt"></i> Delete
+        </a>
         
-          <a href="#">
-            <img class="img-fluid" src="https://halklailiskiler.co/wp-content/uploads/2022/09/Blog-1.jpg" alt="">
-          </a>
-          
-
-          
-
-          <div class="button-container" >
-            <a href="/blogs/edit/<%= blog._id %>" class="button update-button">Update</a>
-          </div>
-          <div>
-            <form id="deleteForm" method="POST" action="/blogs/<%= blog._id %>?_method=DELETE">
-              <button type="submit" onclick="return confirm('Are you sure you want to delete?')" class="button delete-button">Delete</button>
-            </form>
-          </div>
-
-                
+        <button id="like-button-<%= blog._id %>" class="btn btn-secondary" onclick="likePost('<%= blog._id %>')">
+          <i class="fas fa-thumbs-up"></i>
+          <span id="like-count-<%= blog._id %>">
+              <%= blog.likeCount %>
+          </span>
+          <%= blog.likeCount === 1 ? " Like" : " Likes" %>
+      </button>
+      
+      </div>    
           
         </div>
       </div>
@@ -63,6 +69,8 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/clean-blog.min.js"></script>
+
+  <%- include('partials/_likeButtonAjax') -%>
 
 </body>
 

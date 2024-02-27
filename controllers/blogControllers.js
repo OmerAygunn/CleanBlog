@@ -2,13 +2,10 @@ const { query } = require('express');
 const Blog = require('../models/Blog')
 
 
-exports.preapreingBlogs = async (req,res)=>{
-   await Blog.create(req.body)
-    res.redirect('/')
-}
+
 
 exports.getAllBlogs = async (req, res) => {
-    const page = parseInt(req.query.page) || 1; // Eğer sayfa numarası belirtilmemişse varsayılan olarak 1. sayfayı göster
+    const page = parseInt(req.query.page) || 1
     const blogPerPage = 2;
     
     try {

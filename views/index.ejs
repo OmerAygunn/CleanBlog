@@ -37,6 +37,9 @@
                 <p class="post-meta">Posted by CleanBlog
                     <a href="#"><%= element.dateCreated.toDateString() %></a>
                 </p>
+                <h4>
+                  <%= element.edited === true  ? "Edited" : ""  %>
+                 </h4>
             <% }); %>
         <% } else { %>
           <div style="color:black; font-size: 40px; font-weight: bold;">
@@ -50,13 +53,17 @@
       
        
         <div class="clearfix">
+          <h6>Page</h6>
           <% if(page > 0) { %>
             <% for(let i = 1; i <= current; i++) { %>
-
+              
               <a class=" nav-link tm-paging-link float-left" href="/?page=<%= i  %>"><%= i  %></a>&nbsp;
 
             <% } %>
           <% } %>
+        </div>
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="#">Newest Posts &rarr;</a>
         </div>
 
         

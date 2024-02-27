@@ -1,0 +1,20 @@
+<script>
+    
+    function likePost(postId) {
+     let xhr = new XMLHttpRequest();
+     xhr.open("GET", "/blogs/like/" + postId, true);
+     xhr.setRequestHeader("Content-Type", "application/json");
+ 
+     xhr.onreadystatechange = function () {
+         if (xhr.readyState === 4 && xhr.status === 200) {
+             let response = JSON.parse(xhr.responseText);
+             let likeCountSpan = document.getElementById('like-count-' + postId);
+             likeCountSpan.innerText = response.like;
+         }
+     };
+ 
+     xhr.send();
+ }
+ 
+
+</script>
